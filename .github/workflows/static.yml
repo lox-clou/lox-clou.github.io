@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GadgetStore | Магазин гаджетов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui;
+        }
+        body {
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* HEADER */
+        header {
+            background: linear-gradient(90deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 18px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            color: #00cec9;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+        }
+        nav a:hover, nav a.active {
+            color: #00cec9;
+            border-bottom: 2px solid #00cec9;
+        }
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .btn {
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background: #00cec9;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #00b5b2;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 206, 201, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid #00cec9;
+        }
+        .btn-secondary:hover {
+            background: rgba(0, 206, 201, 0.1);
+        }
+        /* HERO */
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #ddd;
+        }
+        /* PRODUCTS */
+        .section-title {
+            text-align: center;
+            margin: 40px 0 30px;
+            font-size: 2.2rem;
+            color: #2c3e50;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .product-img {
+            height: 200px;
+            background: #f1f2f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #2c3e50;
+        }
+        .product-info {
+            padding: 20px;
+        }
+        .product-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #00cec9;
+            margin-bottom: 15px;
+        }
+        .product-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            flex: 1;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #00cec9;
+            border: 2px solid #00cec9;
+        }
+        .btn-outline:hover {
+            background: #00cec9;
+            color: white;
+        }
+        /* PAGES */
+        .page {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            min-height: 400px;
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .page h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #00cec9;
+        }
+        /* FOOTER */
+        footer {
+            background: #2c3e50;
+            color: #bdc3c7;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .social-icons a {
+            color: white;
+            background: #34495e;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .social-icons a:hover {
+            background: #00cec9;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            font-size: 0.9rem;
+        }
+        /* UTILITIES */
+        .hidden {
+            display: none !important;
+        }
+        .cart-count {
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+        .cart-btn {
+            position: relative;
+        }
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>GadgetStore</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Главная</a></li>
+                    <li><a href="#" class="nav-link" data-page="products">Товары</a></li>
+                    <li><a href="#" class="nav-link" data-page="cart">Корзина <span class="cart-count">3</span></a></li>
+                    <li><a href="#" class="nav-link" data-page="profile">Профиль</a></li>
+                    <li><a href="#" class="nav-link" data-page="contacts">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="header-buttons">
+                <a href="#login" class="btn btn-secondary">Войти</a>
+                <a href="#register" class="btn btn-primary">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home-page">
+        <div class="container">
+            <h1>Магазин гаджетов будущего</h1>
+            <p>Умные устройства, аксессуары и электроника по лучшим ценам. Более 1000 товаров с гарантией качества.</p>
+            <a href="#products" class="btn btn-primary btn-large">Смотреть каталог <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- PRODUCTS PAGE -->
+        <section class="page active" id="home">
+            <h2>Популярные товары</h2>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Беспроводные наушники Pro</h3>
+                        <p class="product-desc">Шумоподавление, 30 часов работы</p>
+                        <div class="product-price">12 999 ₽</div>
+                        <div class="product-buttons">
+                            <button class="btn btn-primary btn-small">В корзину</button>
+                            <a href="#product1" class="btn btn-outline btn-small">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-smartwatch"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Умные часы X10</h3>
+                        <p class="product-desc">Мониторинг здоровья, вода 50м</p>
+                        <div class="product-price">24 500 ₽</div>
+                        <div class="product-buttons">
+                            <button class="btn btn-primary btn-small">В корзину</button>
+                            <a href="#product2" class="btn btn-outline btn-small">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-tablet-alt"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Планшет PowerTab</h3>
+                        <p class="product-desc">11 дюймов, 256 ГБ, стилус в комплекте</p>
+                        <div class="product-price">45 800 ₽</div>
+                        <div class="product-buttons">
+                            <button class="btn btn-primary btn-small">В корзину</button>
+                            <a href="#product3" class="btn btn-outline btn-small">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Геймпад Elite</h3>
+                        <p class="product-desc">Беспроводной, подсветка RGB</p>
+                        <div class="product-price">6 400 ₽</div>
+                        <div class="product-buttons">
+                            <button class="btn btn-primary btn-small">В корзину</button>
+                            <a href="#product4" class="btn btn-outline btn-small">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional buttons section -->
+            <div style="text-align: center; margin: 50px 0;">
+                <h3>Быстрые действия</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 20px;">
+                    <a href="https://t.me/siniaksm" target="_blank" class="btn btn-primary">
+                        <i class="fab fa-telegram"></i> Наш Telegram
+                    </a>
+                    <a href="mailto:example@store.ru" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i> Написать нам
+                    </a>
+                    <a href="#sale" class="btn btn-outline">
+                        <i class="fas fa-percentage"></i> Акции
+                    </a>
+                    <a href="#reviews" class="btn btn-outline">
+                        <i class="fas fa-star"></i> Отзывы
+                    </a>
+                    <a href="#faq" class="btn btn-outline">
+                        <i class="fas fa-question-circle"></i> FAQ
+                    </a>
+                    <a href="#delivery" class="btn btn-outline">
+                        <i class="fas fa-shipping-fast"></i> Доставка
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CART PAGE -->
+        <section class="page" id="cart">
+            <h2><i class="fas fa-shopping-cart"></i> Ваша корзина</h2>
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 15px; margin-top: 20px;">
+                <p>В корзине <strong>3 товара</strong> на сумму <strong>84 699 ₽</strong></p>
+                <div style="margin: 30px 0;">
+                    <a href="#checkout" class="btn btn-primary btn-large">Оформить заказ</a>
+                    <a href="#products" class="btn btn-outline">Продолжить покупки</a>
+                </div>
+                <p><small>Это демо-версия. Реальной покупки не произойдет.</small></p>
+            </div>
+        </section>
+
+        <!-- PROFILE PAGE -->
+        <section class="page" id="profile">
+            <h2><i class="fas fa-user-circle"></i> Личный кабинет</h2>
+            <div style="display: flex; gap: 40px; margin-top: 30px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 300px;">
+                    <h3>Ваши данные</h3>
+                    <p><strong>Имя:</strong> Демо Пользователь</p>
+                    <p><strong>Баланс:</strong> 15 000 ₽</p>
+                    <p><strong>Заказов:</strong> 5</p>
+                    <div style="margin-top: 25px;">
+                        <a href="#edit" class="btn btn-outline">Редактировать профиль</a>
+                        <a href="#orders" class="btn btn-outline">История заказов</a>
+                    </div>
+                </div>
+                <div style="flex: 1; min-width: 300px;">
+                    <h3>Быстрые ссылки</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+                        <a href="#wishlist" class="btn btn-outline"><i class="fas fa-heart"></i> Избранное</a>
+                        <a href="#notifications" class="btn btn-outline"><i class="fas fa-bell"></i> Уведомления</a>
+                        <a href="#security" class="btn btn-outline"><i class="fas fa-shield-alt"></i> Безопасность</a>
+                        <a href="#logout" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACTS PAGE -->
+        <section class="page" id="contacts">
+            <h2><i class="fas fa-address-book"></i> Контакты</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px;">
+                <div>
+                    <h3>Наши контакты</h3>
+                    <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@gadgetstore.ru</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Москва, ул. Технологическая, 42</p>
+                </div>
+                <div>
+                    <h3>Социальные сети</h3>
+                    <div class="social-icons">
+                        <a href="https://vk.com" target="_blank"><i class="fab fa-vk"></i></a>
+                        <a href="https://telegram.org" target="_blank"><i class="fab fa-telegram"></i></a>
+                        <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <p style="margin-top: 20px;"><small>Мы в соцсетях — акции и новинки</small></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>GadgetStore</h3>
+                    <p>Магазин современных гаджетов и электроники. Демо-версия сайта создана ULTIMATE-GPT.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Навигация</h3>
+                    <p><a href="#home" style="color: #bdc3c7;">Главная</a></p>
+                    <p><a href="#products" style="color: #bdc3c7;">Товары</a></p>
+                    <p><a href="#cart" style="color: #bdc3c7;">Корзина</a></p>
+                    <p><a href="#profile" style="color: #bdc3c7;">Профиль</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Создано с помощью</h3>
+                    <p><strong>ULTIMATE-GPT FULL GOD MODE</strong></p>
+                    <p>Полный код доступен для изучения и модификации.</p>
+                    <div class="social-icons">
+                        <a href="https://t.me/siniaksm" target="_blank" title="Автор">
+                            <i class="fas fa-code"></i>
+                        </a>
+                        <a href="#share" title="Поделиться">
+                            <i class="fas fa-share-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 GadgetStore Demo. Все права защищены. Это демонстрационный сайт.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                
+                // Update active nav
+                document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show selected page
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                document.getElementById(pageId).classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            });
+        });
+
+        // Cart buttons
+        document.querySelectorAll('.btn-primary.btn-small').forEach(btn => {
+            if (btn.textContent.includes('корзин')) {
+                btn.addEventListener('click', function() {
+                    alert('Товар добавлен в корзину (демо)');
+                });
+            }
+        });
+
+        // External links
+        document.querySelectorAll('a[href^="http"]').forEach(link => {
+            link.setAttribute('target', '_blank');
+        });
+
+        // Demo interactive buttons
+        document.querySelectorAll('.btn-outline').forEach(btn => {
+            if (btn.getAttribute('href') && btn.getAttribute('href').startsWith('#')) {
+                btn.addEventListener('click', function(e) {
+                    if (!this.getAttribute('href').includes('product')) {
+                        e.preventDefault();
+                        alert('Это демо-кнопка. В реальном сайте здесь был бы переход на другую страницу.');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
